@@ -1,26 +1,39 @@
-DROP DATABASE IF EXISTS office; 
-
-CREATE DATABASE office; 
-
-`allows usage of table`
-
-    USE office; 
-
-    CREATE TABLE employee (
-      emp_id INT PRIMARY KEY,
-      first_name VARCHAR(40),
-      last_name VARCHAR(40),
-      birth_day DATE,
-      sex VARCHAR(1),
-      salary INT,
-      super_id INT,
-      branch_id INT
-    );
+# MYSQL - The Office Notes
 
 
-`code below states that the column mgr_id will be a foreign key that references the employee table, and its emp_id`
+Table of Contents
 
-`on delete set null: if the employee is deleted, the associate mgr_id from this table is set to null`
+1. Database/Table
+2. 
+3. 
+4. 
+
+## Database/Tables
+-  `sets up to prevent double creation of database`
+      ```
+      DROP DATABASE IF EXISTS office;
+      CREATE DATABASE office;
+
+- `allows usage of table`
+
+      USE office;
+
+- `creates table`
+
+      CREATE TABLE employee (
+        emp_id INT PRIMARY KEY,
+        first_name VARCHAR(40),
+        last_name VARCHAR(40),
+        birth_day DATE,
+        sex VARCHAR(1),
+        salary INT,
+        super_id INT,
+        branch_id INT
+      );
+
+
+### FOREIGN KEYS: 
+- `mgr_id column will be a foreign key that references the employee table, and its emp_id`
 
     CREATE TABLE branch (
       branch_id INT PRIMARY KEY,
@@ -30,13 +43,13 @@ CREATE DATABASE office;
       FOREIGN KEY(mgr_id) REFERENCES employee(emp_id) ON DELETE SET NULL
     );
 
-      
 
+### ON DELETE SET NULL
 
+`after branch table has been created ^^ `
+`add a foreign key to employee table and make the branch_id the foreign key and it will reference the branch table and its branch_id.`
 
-`now that branch table has been created, we can add a foreign key to employee table and make the branch_id the foreign key and it will reference the branch table and its branch_id.`
-
-`if the branch_id from branch table is deleted, the branch_id at employee is set to null.`
+`if the branch_id from branch table is deleted, the branch_id value in the employee table is set to null.`
 
     ALTER TABLE employee
     ADD FOREIGN KEY(branch_id) REFERENCES branch(branch_id) ON DELETE SET NULL;
@@ -144,112 +157,119 @@ INSERT INTO employee VALUES(108, 'Jim', 'Halpert', '1978-10-01', 'M', 71000, 106
 
 
 -- BRANCH SUPPLIER
--- branch_id (ref: branch(branch_id)), supplier_name, supply_type)
-INSERT INTO branch_supplier VALUES(2, 'Hammer Mill', 'Paper');
-INSERT INTO branch_supplier VALUES(2, 'Uni-ball', 'Writing Utensils');
-INSERT INTO branch_supplier VALUES(3, 'Patriot Paper', 'Paper');
-INSERT INTO branch_supplier VALUES(2, 'J.T. Forms & Labels', 'Custom Forms');
-INSERT INTO branch_supplier VALUES(3, 'Uni-ball', 'Writing Utensils');
-INSERT INTO branch_supplier VALUES(3, 'Hammer Mill', 'Paper');
-INSERT INTO branch_supplier VALUES(3, 'Stamford Lables', 'Custom Forms');
+
+`branch_id (ref: branch(branch_id)), supplier_name, supply_type)`
+
+      INSERT INTO branch_supplier VALUES(2, 'Hammer Mill', 'Paper');
+      INSERT INTO branch_supplier VALUES(2, 'Uni-ball', 'Writing Utensils');
+      INSERT INTO branch_supplier VALUES(3, 'Patriot Paper', 'Paper');
+      INSERT INTO branch_supplier VALUES(2, 'J.T. Forms & Labels', 'Custom Forms');
+      INSERT INTO branch_supplier VALUES(3, 'Uni-ball', 'Writing Utensils');
+      INSERT INTO branch_supplier VALUES(3, 'Hammer Mill', 'Paper');
+      INSERT INTO branch_supplier VALUES(3, 'Stamford Lables', 'Custom Forms');
+
 
 -- CLIENT
-INSERT INTO client VALUES(400, 'Dunmore Highschool', 2);
-INSERT INTO client VALUES(401, 'Lackawana Country', 2);
-INSERT INTO client VALUES(402, 'FedEx', 3);
-INSERT INTO client VALUES(403, 'John Daly Law, LLC', 3);
-INSERT INTO client VALUES(404, 'Scranton Whitepages', 2);
-INSERT INTO client VALUES(405, 'Times Newspaper', 3);
-INSERT INTO client VALUES(406, 'FedEx', 2);
+      INSERT INTO client VALUES(400, 'Dunmore Highschool', 2);
+      INSERT INTO client VALUES(401, 'Lackawana Country', 2);
+      INSERT INTO client VALUES(402, 'FedEx', 3);
+      INSERT INTO client VALUES(403, 'John Daly Law, LLC', 3);
+      INSERT INTO client VALUES(404, 'Scranton Whitepages', 2);
+      INSERT INTO client VALUES(405, 'Times Newspaper', 3);
+      INSERT INTO client VALUES(406, 'FedEx', 2);
 
 -- WORKS_WITH
-INSERT INTO works_with VALUES(105, 400, 55000);
-INSERT INTO works_with VALUES(102, 401, 267000);
-INSERT INTO works_with VALUES(108, 402, 22500);
-INSERT INTO works_with VALUES(107, 403, 5000);
-INSERT INTO works_with VALUES(108, 403, 12000);
-INSERT INTO works_with VALUES(105, 404, 33000);
-INSERT INTO works_with VALUES(107, 405, 26000);
-INSERT INTO works_with VALUES(102, 406, 15000);
-INSERT INTO works_with VALUES(105, 406, 130000);
+      INSERT INTO works_with VALUES(105, 400, 55000);
+      INSERT INTO works_with VALUES(102, 401, 267000);
+      INSERT INTO works_with VALUES(108, 402, 22500);
+      INSERT INTO works_with VALUES(107, 403, 5000);
+      INSERT INTO works_with VALUES(108, 403, 12000);
+      INSERT INTO works_with VALUES(105, 404, 33000);
+      INSERT INTO works_with VALUES(107, 405, 26000);
+      INSERT INTO works_with VALUES(102, 406, 15000);
+      INSERT INTO works_with VALUES(105, 406, 130000);
 
-SELECT * FROM employee
-ORDER BY salary DESC; 
+      SELECT * FROM employee
+      ORDER BY salary DESC; 
 
-SELECT first_name AS forename, last_name AS surname 
-FROM employee;
+      SELECT first_name AS forename, last_name AS surname 
+      FROM employee;
 
-SELECT DISTINCT sex FROM employee; 
+      SELECT DISTINCT sex FROM employee; 
 
 -- find number of employees
-SELECT COUNT(emp_id) 
-FROM employee;
+      SELECT COUNT(emp_id) 
+      FROM employee;
 
 
-SELECT * FROM employee
-WHERE sex = 'F' AND birth_day > '1970-01-01';
+      SELECT * FROM employee
+      WHERE sex = 'F' AND birth_day > '1970-01-01';
 
-SELECT COUNT(emp_id)
-FROM employee 
-WHERE sex = 'F' AND birth_day > '1970-01-01';
+      SELECT COUNT(emp_id)
+      FROM employee 
+      WHERE sex = 'F' AND birth_day > '1970-01-01';
 
-SELECT AVG (salary)
-FROM employee
-WHERE branch_id = 2;
+      SELECT AVG (salary)
+      FROM employee
+      WHERE branch_id = 2;
 
-SELECT SUM(salary)
-FROM employee;
+      SELECT SUM(salary)
+      FROM employee;
 
-SELECT COUNT(sex), sex
-FROM employee
-GROUP BY sex;
+      SELECT COUNT(sex), sex
+      FROM employee
+      GROUP BY sex;
 
-SELECT SUM(total_sales), emp_id
-FROM works_with
-GROUP by emp_id;
+      SELECT SUM(total_sales), emp_id
+      FROM works_with
+      GROUP by emp_id;
 
 -- find clients who are an LLC
 -- % = any # of characters before the '' OR ends with
 -- _ = one character 
-SELECT *
-FROM client
-WHERE client_name LIKE '%LLC';   
+
+      SELECT *
+      FROM client
+      WHERE client_name LIKE '%LLC';   
 
 -- find branch suppliers that are in the label business
-SELECT *
-FROM branch_supplier
-WHERE supplier_name LIKE '%labels%';
+
+      SELECT *
+      FROM branch_supplier
+      WHERE supplier_name LIKE '%labels%';
 
 -- birthdays in october 
-SELECT * 
-FROM employee
-WHERE birth_day LIKE '____-10%';
+
+      SELECT * 
+      FROM employee
+      WHERE birth_day LIKE '____-10%';
 
 -- find a list of employee and branch names
 -- UNIONS have to have similar data types and columns to combine results
-SELECT first_name AS Indivuals
-FROM employee
-UNION
-SELECT branch_name 
-FROM branch
-UNION
-SELECT client_name
-FROM client; 
 
-SELECT salary FROM employee
-UNION
-SELECT total_sales FROM works_with;
+      SELECT first_name AS Indivuals
+      FROM employee
+      UNION
+      SELECT branch_name 
+      FROM branch
+      UNION
+      SELECT client_name
+      FROM client; 
 
-INSERT INTO branch VALUES(4, 'Buffalo', NULL, NULL);
-SELECT * FROM branch;
+      SELECT salary FROM employee
+      UNION
+      SELECT total_sales FROM works_with;
+
+      INSERT INTO branch VALUES(4, 'Buffalo', NULL, NULL);
+      SELECT * FROM branch;
 
 -- find a list of each branch and their managers
 -- if you have a situation where two tables share the same information, you can use a join.
-SELECT employee.emp_id, employee.first_name, branch.branch_name
-FROM employee
+      SELECT employee.emp_id, employee.first_name, branch.branch_name
+      FROM employee
 -- inner join prints only employees that have shared row values
 JOIN branch
-ON employee.emp_id = branch.mgr_id;
+      ON employee.emp_id = branch.mgr_id;
 
 
 SELECT employee.emp_id, employee.first_name, branch.branch_name
